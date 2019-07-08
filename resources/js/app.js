@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./signature_pad');
 
 window.Vue = require('vue');
 
