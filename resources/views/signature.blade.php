@@ -20,6 +20,7 @@
               <label for="file">Signature :</label>
               <input type="text" class="form-control" id="file">
             </div>
+            <input id="signup-token" name="_token" type="hidden" value="{{csrf_token()}}">
             <button class="btn btn-primary" id="ajaxSubmit">Submit</button>
           </form>
 
@@ -28,7 +29,7 @@
             <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
           </div>
 
-          <button id="save-png">Save as PNG</button>
+          <button class="btn btn-primary" id="save">Save</button>
           <button id="clear">Clear</button>
 
 
@@ -47,25 +48,40 @@
 <!-- AJAX to save basic form -->
 
       <script>
-         jQuery(document).ready(function(){
-            jQuery('#ajaxSubmit').click(function(e){
-               e.preventDefault();
+         $(function(){
+
                $.ajaxSetup({
                   headers: {
                       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                   }
               });
-               jQuery.ajax({
+
+               var canvas = document.getElementById('signature-pad');
+
+               var signaturePad = new SignaturePad(canvas, {
+               });
+
+               var saveButton = document.getElementById('save');
+               var clearButton = document.getElementById('clear');
+
+               saveButton.addEventListener('click', function (event) {
+
+               $.ajax({
                   url: "{{ url('/signature/post') }}",
                   method: 'post',
                   data: {
-                     file: jQuery('#file').val(),
+                     signature: signaturePad.toDataURL('image/png'),
                   },
                   success: function(result){
                      jQuery('.alert').show();
                      jQuery('.alert').html(result.success);
                   }});
                });
+
+                clearButton.addEventListener('click', function () {
+                  signaturePad.clear();
+                });
+
             });
       </script>
 
@@ -74,33 +90,13 @@
       <script type="text/javascript">
       var canvas = document.getElementById('signature-pad');
 
-      function resizeCanvas() {
-          var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-          canvas.width = canvas.offsetWidth * ratio;
-          canvas.height = canvas.offsetHeight * ratio;
-          canvas.getContext("2d").scale(ratio, ratio);
-      }
-
-      window.onresize = resizeCanvas;
-      resizeCanvas();
-
       var signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
       });
 
-      document.getElementById('save-png').addEventListener('click', function () {
-        if (signaturePad.isEmpty()) {
-          return alert("Please provide a signature first.");
-        }
 
-          var data = signaturePad.toDataURL('image/png');
-            console.log(data);
-            window.open(data);
-          });
-
-      document.getElementById('clear').addEventListener('click', function () {
-        signaturePad.clear();
-      });
+//      document.getElementById('clear').addEventListener('click', function () {
+//        signaturePad.clear();
+//      });
 
       </script>
 
