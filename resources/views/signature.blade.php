@@ -87,18 +87,7 @@
 
 <!-- Signature pad js -->
 
-      <script type="text/javascript">
-      var canvas = document.getElementById('signature-pad');
 
-      var signaturePad = new SignaturePad(canvas, {
-      });
-
-
-//      document.getElementById('clear').addEventListener('click', function () {
-//        signaturePad.clear();
-//      });
-
-      </script>
 
     </body>
 </html>
