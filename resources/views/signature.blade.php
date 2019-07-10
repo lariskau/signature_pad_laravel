@@ -10,27 +10,23 @@
     </head>
     <body>
 
-<!-- Basic form -->
-
-      <h1>Signature</h1>
+      <!-- Signature pad -->
+      <br>
       <div class="container">
-         <div class="alert alert-success" style="display:none"></div>
-         <form id="myForm">
-            <div class="form-group">
-              <label for="file">Signature :</label>
-              <input type="text" class="form-control" id="file">
-            </div>
-            <input id="signup-token" name="_token" type="hidden" value="{{csrf_token()}}">
-            <button class="btn btn-primary" id="ajaxSubmit">Submit</button>
-          </form>
+        <div class="jumbotron">
 
-<!-- Signature pad -->
+        <h1 class="display-6">Signature pad library</h1>
+        <p class="lead">Simple form made with Laravel framework and Ajax POST method</p>
+
           <div class="wrapper">
             <canvas id="signature-pad" class="signature-pad" width=400 height=200></canvas>
           </div>
-
+          <br>
           <button class="btn btn-primary" id="save">Save</button>
-          <button id="clear">Clear</button>
+          <button class="btn btn-secondary" id="clear">Clear</button>
+        </div>
+
+        </div>
 
 
 <!-- CDN -->
